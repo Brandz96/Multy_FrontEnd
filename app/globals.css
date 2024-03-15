@@ -51,6 +51,11 @@ html, body {
     font-family: Futura;
 }
 
+.multyScore {
+    margin-top: 1rem;
+    margin-right: 2rem;
+}
+
 #seconds {
     font-family: "Poppins", sans-serif;
     font-weight: 600;
