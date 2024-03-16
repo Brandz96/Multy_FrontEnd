@@ -78,17 +78,17 @@ function Timer  ()  {
 };
 
 
-function Question({data,position} :{data: any[], position: number}){
+function Question({data,position} : {data : any [], position: number}){
 
   let multiplier = 0;
   let multiplicand = 0;
   let questionIndex = 0;
 
-  if(data != null && position != null){
+  if(data.length > 0 && position != null){
     questionIndex = position;
   }
 
-  if(data !== null){
+  if(data.length > 0 ){
 
   
   multiplier = data[questionIndex].multiplier;
@@ -143,18 +143,22 @@ function Question({data,position} :{data: any[], position: number}){
 
 function Answers() {
 
-  let [data, setData] = useState([] as any[]);
+  let [data, setData] = useState([] as any);
   let [position, setPosition] = useState(0 as number);
   let [score, setScore] = useState(0 as number);
+  let [shuffle, setShuffle] = useState([] as any);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        console.log("fetching data")
         const response = await fetch('http://localhost:8080/data'); // Replace with your Spring Boot API endpoint
         const responseData = await response.json();
-    
+        
         setData(responseData);
         setPosition(0);
+        shuffleButtons(responseData)
+        
        
       } catch (error) {
         console.error('Error fetching data:', error); // Handle errors gracefully
@@ -162,6 +166,7 @@ function Answers() {
     };
 
     fetchData();
+    
     
   }, []);
   
@@ -176,6 +181,35 @@ function Answers() {
     setScore(sc);
   }
 
+  function shuffleButtons(responseData){
+    /**
+    
+    I need to be able to shuffle the buttons 
+    data[position] is the object
+    data[position].wrongAnswer1 = first wrong answer
+    data[position].rightAnswer = right answer
+    data[position].wrongAnswer2 = second wrong answer
+
+    */
+
+    let data = responseData;
+
+    console.log("Shuffling Buttons")
+    let shuffleArr : [number, number, number];
+    console.log(data)
+    shuffleArr = [data[position].rightAnswer, data[position].wrongAnswer1, data[position].wrongAnswer2];
+    debugger;
+    for(let i = shuffleArr.length -1 ; i > 0 ; i--){
+      let place = Math.floor(Math.random() * 3);
+
+      shuffleArr[place] = shuffleArr[i];
+
+    }
+
+    debugger;
+    setShuffle(shuffleArr);
+
+  }
 
 
   return (
@@ -189,16 +223,16 @@ function Answers() {
       <div className="responsiveContainer">
 
         <div className="grid grid-cols-3">
-          {data ? ( // Check if data is available before accessing properties
+          {data.length > 0 ? ( // Check if data is available before accessing properties
             <>
               <Button variant="outline-secondary" id="customButton" className="px-4 py-2 mx-4">
-                {data[position].wrongAnswer1}
+                {shuffle[0]}
               </Button>
               <Button variant="outline-secondary" id="customButton" className="px-4 py-2 mx-4">
-                {data[position].wrongAnswer2}
+                {shuffle[1]}
               </Button>
               <Button variant="outline-secondary" id="customButton" className="px-4 py-2 mx-4" onClick={goToNextQuestion}>
-                {data[position].rightAnswer}
+                {shuffle[2]}
               </Button>
             </>
           ) : (
