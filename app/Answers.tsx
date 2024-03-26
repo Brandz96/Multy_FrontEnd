@@ -48,25 +48,26 @@ function Answers() {
     setScore(sc);
   }
 
-  function shuffleButtons(){
-    /**
-    
-    I need to be able to shuffle the buttons 
-    data[position] is the object
-    data[position].wrongAnswer1 = first wrong answer
-    data[position].rightAnswer = right answer
-    data[position].wrongAnswer2 = second wrong answer
+  function shuffleButtons(event: HTMLButtonElement){
 
-    */
+    
+    const element = event.target as HTMLButtonElement
+    const innerText = element.innerText;
+
+
+
+
+    console.log(event.target?.innerText);
+    console.log(data[position].rightAnswer)
+
+    if(event.target?.innerText == data[position].rightAnswer) {
 
     let curr = position + 1;
     setPosition(curr);
     console.log(curr)
     increaseScore();
     let shuffleArr =  [data[curr].rightAnswer, data[curr].wrongAnswer1, data[curr].wrongAnswer2];
-    
 
-    
 
     console.log("Shuffling Buttons")
     
@@ -81,7 +82,9 @@ function Answers() {
     console.log("Current Answer Obj: " + shuffleArr);
     setShuffle(shuffleArr);
 
-    
+    } else {
+        alert("WRONGGGGG")
+    }
 
   }
 
