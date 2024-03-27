@@ -1,5 +1,5 @@
 import Button from "@/node_modules/react-bootstrap/esm/Button";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Question from "./Question";
 import MultyScore from "./Score";
 
@@ -21,8 +21,7 @@ function Answers() {
         setData(responseData);
         setPosition(0);
         setShuffle([responseData[0].rightAnswer, responseData[0].wrongAnswer1, responseData[0].wrongAnswer2]);
-        //shuffleButtons(responseData)
-        console.log(responseData)
+        
        
       } catch (error) {
         console.error('Error fetching data:', error); // Handle errors gracefully
@@ -34,52 +33,31 @@ function Answers() {
     
   }, []);
   
-  function goToNextQuestion() {
-
-    
-
-    let curr = position + 1;
-    setPosition(curr);
-    increaseScore();
-  }
 
   function increaseScore(){
     let sc = score + 1;
     setScore(sc);
   }
 
-  function shuffleButtons(event: HTMLButtonElement){
+  function shuffleButtonsAndGoToNextQuestion(event: React.MouseEvent<HTMLButtonElement>){
 
     
     const element = event.target as HTMLButtonElement
     const innerText = element.innerText;
 
-
-
-
-    console.log(event.target?.innerText);
-    console.log(data[position].rightAnswer)
-
-    if(event.target?.innerText == data[position].rightAnswer) {
+    if(innerText == data[position].rightAnswer) {
 
     let curr = position + 1;
     setPosition(curr);
-    console.log(curr)
     increaseScore();
     let shuffleArr =  [data[curr].rightAnswer, data[curr].wrongAnswer1, data[curr].wrongAnswer2];
-
-
-    console.log("Shuffling Buttons")
-    
-    console.log("Question number: " + curr)
-    console.log(data[curr])
 
     for(let i = shuffleArr.length - 1; i > 0; i--){
         const j = Math.floor(Math.random() * (i + 1));
         [shuffleArr[i], shuffleArr[j] ] = [shuffleArr[j], shuffleArr[i]];
     }
 
-    console.log("Current Answer Obj: " + shuffleArr);
+    
     setShuffle(shuffleArr);
 
     } else {
@@ -94,38 +72,32 @@ function Answers() {
     <>
     <MultyScore
       score={score} />
+    
     <Question
       data={data}
       position={position} />
       <div className="responsiveContainer">
-
         <div className="grid grid-cols-3">
           {data.length > 0 ? ( // Check if data is available before accessing properties
             <>
-              <Button variant="outline-secondary" id="customButton" className="px-4 py-2 mx-4" onClick={shuffleButtons}>
+              <Button variant="outline-secondary" id="customButton" className="px-4 py-2 mx-4" onClick={shuffleButtonsAndGoToNextQuestion}>
                 {shuffle[0]}
               </Button>
-              <Button variant="outline-secondary" id="customButton" className="px-4 py-2 mx-4" onClick={shuffleButtons}>
+              <Button variant="outline-secondary" id="customButton" className="px-4 py-2 mx-4" onClick={shuffleButtonsAndGoToNextQuestion}>
                 {shuffle[1]}
               </Button>
-              <Button variant="outline-secondary" id="customButton" className="px-4 py-2 mx-4" onClick={shuffleButtons}>
+              <Button variant="outline-secondary" id="customButton" className="px-4 py-2 mx-4" onClick={shuffleButtonsAndGoToNextQuestion}>
                 {shuffle[2]}
               </Button>
             </>
           ) : (
             <p>Data not loading</p>
           )}
-           {/* <Button variant="outline-secondary" id="customButton" className="px-4 py-2 mx-3">
-                Answer 1
-              </Button>
-              <Button variant="outline-secondary" id="customButton" className="px-4 py-2 mx-3">
-                answer 3 2
-              </Button>
-              <Button variant="outline-secondary" id="customButton" className="px-4 py-2 mx-3">
-                answer 3
-              </Button> */}
         </div>
-      </div></>
+      </div>
+      
+      </>
+
   );
 };
 
