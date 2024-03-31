@@ -5,11 +5,13 @@ import React, {useState, useEffect, useRef} from 'react';
 import MultyTitle from "./Title";
 import Timer from "./Timer";
 import Answers from "./Answers";
+import EndGameAlert from './EndGameAlert';
 
 
 function App () {
 
-   const[currentSeconds, setSeconds] = useState(60);
+ const[currentSeconds, setSeconds] = useState(60);
+ const[score, setScore] = useState(0);
 
   function stopIntervalFunc () {
    console.log("Calling Stop Interval Func")
@@ -24,7 +26,7 @@ function App () {
 
   function startTimer() {
     console.log("Calling starttimer")
- 
+    setScore(0)
     let newSeconds = 60;
     setSeconds(newSeconds)
    
@@ -47,20 +49,33 @@ function App () {
 
 
 
+  function increaseScore(){
+    let sc = score + 1;
+    setScore(sc);
+  }
+
+
+
 return (
    <>
    <MultyTitle />
    {
    currentSeconds > 0 ? (
    <>
-   <Answers />
+   <Answers 
+   score={score}
+   increaseScore={increaseScore}/>
    <Timer
          currentSeconds={currentSeconds}
          startTimer={startTimer}
          stopIntervalFunc={stopIntervalFunc} /></>
    ) : 
    (
-      <p>Seconds Not working</p>
+      <EndGameAlert
+      score={score}
+      startTimer={startTimer}
+      stopIntervalFunc={stopIntervalFunc}
+      />
    )
    }
   

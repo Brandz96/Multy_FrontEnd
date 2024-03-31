@@ -1,14 +1,14 @@
 import Button from "@/node_modules/react-bootstrap/esm/Button";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, MouseEventHandler } from "react";
 import Question from "./Question";
 import MultyScore from "./Score";
 
 
-function Answers() {
+function Answers({score, increaseScore} : {score : number, increaseScore: any}) {
 
   let [data, setData] = useState([] as any);
   let [position, setPosition] = useState(0 as number);
-  let [score, setScore] = useState(0 as number);
+  //let [score, setScore] = useState(0 as number);
   let [shuffle, setShuffle] = useState([] as any);
 
   useEffect(() => {
@@ -34,10 +34,7 @@ function Answers() {
   }, []);
   
 
-  function increaseScore(){
-    let sc = score + 1;
-    setScore(sc);
-  }
+  
 
   function shuffleButtonsAndGoToNextQuestion(event: React.MouseEvent<HTMLButtonElement>){
 
@@ -50,6 +47,7 @@ function Answers() {
     let curr = position + 1;
     setPosition(curr);
     increaseScore();
+    console.log(score)
     let shuffleArr =  [data[curr].rightAnswer, data[curr].wrongAnswer1, data[curr].wrongAnswer2];
 
     for(let i = shuffleArr.length - 1; i > 0; i--){
