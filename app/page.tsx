@@ -5,23 +5,32 @@ import React, {useState, useEffect, useRef} from 'react';
 import MultyTitle from "./Title";
 import Timer from "./Timer";
 import Answers from "./Answers";
-import EndGameAlert from './EndGameAlert';
+import EndGameAlert from './EndGame';
+import Welcome from './Welcome';
 
 
 function App () {
 
- const[currentSeconds, setSeconds] = useState(60);
+ const[currentSeconds, setSeconds] = useState(61);
  const[score, setScore] = useState(0);
+ 
+ let interval: string | number | NodeJS.Timeout | undefined;
 
   function stopIntervalFunc () {
    console.log("Calling Stop Interval Func")
+
+   clearInterval(interval);
    let newSeconds = 0;
 
    setSeconds(newSeconds);
+
+
     
    console.log("Stopping Timer")
    console.log(newSeconds);
    console.log(currentSeconds)
+
+
   }
 
   function startTimer() {
@@ -29,23 +38,33 @@ function App () {
     setScore(0)
     let newSeconds = 60;
     setSeconds(newSeconds)
-   
-  }
 
-  useEffect(() => {
-    const interval = setInterval(
+      interval = setInterval(
       () => { 
       if(currentSeconds > 0){
        setSeconds((currentSeconds) =>
         currentSeconds - 1);
       }
-    
-    }, 1000);
+   
+  }, 1000)
+}
 
-    return () => 
-    clearInterval(interval)
+
+
+  // useEffect(() => {
+  //   interval = setInterval(
+  //     () => { 
+  //     if(currentSeconds > 0){
+  //      setSeconds((currentSeconds) =>
+  //       currentSeconds - 1);
+  //     }
     
-  },);
+  //   }, 1000);
+
+  //   return () => 
+  //   clearInterval(interval)
+    
+  // },);
 
 
 
@@ -60,25 +79,32 @@ return (
    <>
    <MultyTitle />
    {
-   currentSeconds > 0 ? (
+      currentSeconds == 61 ? ( 
+
+   <Welcome
+         startTimer={startTimer}             
+      />
+
+   ) 
+   
+   : currentSeconds > 0 ? (
    <>
    <Answers 
-   score={score}
-   increaseScore={increaseScore}/>
+         score={score}
+         increaseScore={increaseScore}/>
    <Timer
          currentSeconds={currentSeconds}
          startTimer={startTimer}
-         stopIntervalFunc={stopIntervalFunc} /></>
-   ) : 
-   (
-      <EndGameAlert
-      score={score}
-      startTimer={startTimer}
-      stopIntervalFunc={stopIntervalFunc}
+         stopIntervalFunc={stopIntervalFunc} 
       />
-   )
+   </>
+   ) 
+   : 
+   <EndGameAlert
+         score={score}
+         startTimer={startTimer}
+   />
    }
-  
    </>
 );
 

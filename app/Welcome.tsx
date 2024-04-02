@@ -6,24 +6,19 @@ import { MouseEventHandler } from "react";
 
 
 
-export function EndGameAlert({score, startTimer, stopIntervalFunc} : {score : Number, startTimer: MouseEventHandler<HTMLButtonElement>, stopIntervalFunc: MouseEventHandler<HTMLButtonElement>}) {
+export function Welcome({startTimer} : {startTimer: MouseEventHandler<HTMLButtonElement>}) {
   return (
     <><Alert>
-      <AlertTitle>Thanks for Playing</AlertTitle>
+      <AlertTitle>Welcome to Multy!</AlertTitle>
       <AlertDescription>
-        <>
-        Your score is {score}
-        </>
+        Multy is an online game to freshen up those multiplication skills, or learn them! You have 60 seconds to answer as many multiplication problems as possible. Good luck and don't forget to challenge your friends!
       </AlertDescription>
     </Alert><div className="timerButtonsContainer">
         <Button variant="outline-success" id="timerButtons" className="px-4 py-2 mx-3" onClick={startTimer}>
           Start Game
         </Button>
-        <Button variant="outline-danger" id="timerButtons" className="px-4 py-2" onClick={stopIntervalFunc}>
-          End Game
-        </Button>
       </div></>
   )
 }
 
-export default EndGameAlert;
+export default Welcome;
