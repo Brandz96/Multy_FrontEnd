@@ -13,13 +13,15 @@ function App () {
 
  const[currentSeconds, setSeconds] = useState(61);
  const[score, setScore] = useState(0);
- 
- let interval: string | number | NodeJS.Timeout | undefined;
+ const interval = useRef(0);
+ const difficultyId = useRef(-1);
 
   function stopIntervalFunc () {
    console.log("Calling Stop Interval Func")
 
-   clearInterval(interval);
+   const intervalId = interval.current;
+
+   clearInterval(intervalId);
    let newSeconds = 0;
 
    setSeconds(newSeconds);
@@ -33,13 +35,17 @@ function App () {
 
   }
 
-  function startTimer() {
+  function startTimer(difficultyFromWelcome : number) {
     console.log("Calling starttimer")
+    //debugger
     setScore(0)
     let newSeconds = 60;
     setSeconds(newSeconds)
-
-      interval = setInterval(
+    difficultyId.current = difficultyFromWelcome;
+    console.log(difficultyId.current);
+    
+    if(typeof window !== "undefined"){
+    const intervalId = window.setInterval(
       () => { 
       if(currentSeconds > 0){
        setSeconds((currentSeconds) =>
@@ -47,24 +53,10 @@ function App () {
       }
    
   }, 1000)
+    
+  interval.current = intervalId;
 }
-
-
-
-  // useEffect(() => {
-  //   interval = setInterval(
-  //     () => { 
-  //     if(currentSeconds > 0){
-  //      setSeconds((currentSeconds) =>
-  //       currentSeconds - 1);
-  //     }
-    
-  //   }, 1000);
-
-  //   return () => 
-  //   clearInterval(interval)
-    
-  // },);
+  }
 
 
 
@@ -79,7 +71,7 @@ return (
    <>
    <MultyTitle />
    {
-      currentSeconds == 61 ? ( 
+      (currentSeconds == 61 || difficultyId.current == -1) ? ( 
 
    <Welcome
          startTimer={startTimer}             
@@ -91,7 +83,9 @@ return (
    <>
    <Answers 
          score={score}
-         increaseScore={increaseScore}/>
+         increaseScore={increaseScore}
+         difficultyId = {difficultyId.current}
+         />
    <Timer
          currentSeconds={currentSeconds}
          startTimer={startTimer}

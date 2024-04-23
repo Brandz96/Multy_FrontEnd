@@ -4,7 +4,7 @@ import Question from "./Question";
 import MultyScore from "./Score";
 
 
-function Answers({score, increaseScore} : {score : number, increaseScore: any}) {
+function Answers({score, increaseScore, difficultyId} : {score : number, increaseScore: any, difficultyId: number}) {
 
   let [data, setData] = useState([] as any);
   let [position, setPosition] = useState(0 as number);
@@ -15,12 +15,17 @@ function Answers({score, increaseScore} : {score : number, increaseScore: any}) 
     const fetchData = async () => {
       try {
         console.log("fetching data")
-        const response = await fetch('http://localhost:8080/data'); // Replace with your Spring Boot API endpoint
+        const response = await fetch(`http://localhost:8081/getAllData`); // Replace with your Spring Boot API endpoint
         const responseData = await response.json();
-        
+        //console.log(responseData);
+        //console.log("Diff ID in Answers : " + difficultyId)
         setData(responseData);
         setPosition(0);
-        setShuffle([responseData[0].rightAnswer, responseData[0].wrongAnswer1, responseData[0].wrongAnswer2]);
+
+
+
+      
+        setShuffle([responseData[difficultyId][position].rightAnswer, responseData[difficultyId][position].wrongAnswer1, responseData[difficultyId][position].wrongAnswer2]);
         
        
       } catch (error) {
@@ -42,13 +47,13 @@ function Answers({score, increaseScore} : {score : number, increaseScore: any}) 
     const element = event.target as HTMLButtonElement
     const innerText = element.innerText;
 
-    if(innerText == data[position].rightAnswer) {
+    if(innerText == data[difficultyId][position].rightAnswer) {
 
     let curr = position + 1;
     setPosition(curr);
     increaseScore();
     console.log(score)
-    let shuffleArr =  [data[curr].rightAnswer, data[curr].wrongAnswer1, data[curr].wrongAnswer2];
+    let shuffleArr =  [data[difficultyId][curr].rightAnswer, data[difficultyId][curr].wrongAnswer1, data[difficultyId][curr].wrongAnswer2];
 
     for(let i = shuffleArr.length - 1; i > 0; i--){
         const j = Math.floor(Math.random() * (i + 1));
@@ -73,7 +78,8 @@ function Answers({score, increaseScore} : {score : number, increaseScore: any}) 
     
     <Question
       data={data}
-      position={position} />
+      position={position}
+      difficultyId={difficultyId} />
       <div className="responsiveContainer">
         <div className="grid grid-cols-3">
           {data.length > 0 ? ( // Check if data is available before accessing properties

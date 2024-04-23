@@ -1,4 +1,4 @@
-function Question({data,position} : {data : any [], position: number}){
+function Question({data,position,difficultyId} : {data : any [], position: number, difficultyId: number}){
 
   let multiplier = 0;
   let multiplicand = 0;
@@ -8,11 +8,19 @@ function Question({data,position} : {data : any [], position: number}){
     questionIndex = position;
   }
 
+  console.log("Finding Difficulty ID")
+  console.log(difficultyId);
+  console.log(questionIndex);
+
+  
   if(data.length > 0 ){
 
   
-  multiplier = data[questionIndex].multiplier;
-  multiplicand = data[questionIndex].multiplicand;
+  
+  multiplier = data[difficultyId][questionIndex].multiplier;
+  debugger
+  multiplicand = data[difficultyId][questionIndex].multiplicand;
+  debugger
   }
   let x = " x ";
 

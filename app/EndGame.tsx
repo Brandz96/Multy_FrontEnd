@@ -6,7 +6,7 @@ import { MouseEventHandler } from "react";
 
 
 
-export function EndGameAlert({score, startTimer} : {score : Number, startTimer: MouseEventHandler<HTMLButtonElement>}) {
+export function EndGameAlert({score, startTimer} : {score : Number, startTimer: any}) {
   return (
     <><Alert>
       <AlertTitle>Thanks for Playing!</AlertTitle>
@@ -16,7 +16,7 @@ export function EndGameAlert({score, startTimer} : {score : Number, startTimer: 
         </>
       </AlertDescription>
     </Alert><div className="timerButtonsContainer">
-        <Button variant="outline-success" id="timerButtons" className="px-4 py-2 mx-3" onClick={startTimer}>
+        <Button variant="outline-success" id="timerButtons" className="px-4 py-2 mx-3" onClick={startTimer(-1)}>
           Start Game
         </Button>
       </div></>
