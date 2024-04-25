@@ -16,7 +16,7 @@ export function EndGameAlert({score, startTimer} : {score : Number, startTimer: 
         </>
       </AlertDescription>
     </Alert><div className="timerButtonsContainer">
-        <Button variant="outline-success" id="timerButtons" className="px-4 py-2 mx-3" onClick={startTimer(-1)}>
+        <Button variant="outline-success" id="timerButtons" className="px-4 py-2 mx-3" onClick={() => startTimer(0)}>
           Start Game
         </Button>
       </div></>
