@@ -22,7 +22,7 @@ function App () {
    const intervalId = interval.current;
 
    clearInterval(intervalId);
-   let newSeconds = -2;
+   let newSeconds = 61;
 
    setSeconds(newSeconds);
 
