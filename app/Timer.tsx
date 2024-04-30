@@ -3,7 +3,7 @@ import { MouseEventHandler, useEffect, useState } from "react";
 
 
 
-function Timer  ({currentSeconds, startTimer, stopIntervalFunc} : {currentSeconds: Number, startTimer: MouseEventHandler<HTMLButtonElement>, stopIntervalFunc: MouseEventHandler<HTMLButtonElement>})  {
+function Timer  ({currentSeconds, startTimer, stopIntervalFunc} : {currentSeconds: Number, startTimer: any, stopIntervalFunc: MouseEventHandler<HTMLButtonElement>})  {
 
   
     return (
@@ -14,7 +14,7 @@ function Timer  ({currentSeconds, startTimer, stopIntervalFunc} : {currentSecond
        
       </div>
       <div className="timerButtonsContainer">
-      <Button variant="outline-success" id="timerButtons" className="px-4 py-2 mx-3" onClick={startTimer}>
+      <Button variant="outline-success" id="timerButtons" className="px-4 py-2 mx-3" onClick={startTimer(0)}>
         Start Game
         </Button>
         <Button variant="outline-danger" id="timerButtons"  className="px-4 py-2" onClick={stopIntervalFunc}>
