@@ -1,9 +1,5 @@
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import Button from "@/node_modules/react-bootstrap/esm/Button";
-import { MouseEventHandler } from "react";
-
-
-
 
 
 export function Welcome({startTimer} : {startTimer: any}) {
