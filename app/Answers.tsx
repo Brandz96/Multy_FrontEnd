@@ -63,8 +63,6 @@ function Answers({score, increaseScore, difficultyId} : {score : number, increas
     
     setShuffle(shuffleArr);
 
-    } else {
-        alert("WRONGGGGG")
     }
 
   }
